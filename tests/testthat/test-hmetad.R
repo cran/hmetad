@@ -67,12 +67,59 @@ test_that("aggregate_metad works", {
       )
     )
   )
+
+  a <- aggregate_metad(sim_metad_condition(N_trials = 100), condition)
+  expect_equal(nrow(a), 2)
+  expect_all_equal(a$N_0, 50)
+  expect_all_equal(a$N_1, 50)
+  expect_all_equal(rowSums(a$N), 100)
 })
 
 test_that("aggregate_metad fails for invalid K", {
   expect_error(aggregate_metad(tibble()))
   expect_error(aggregate_metad(tibble(), K = 0))
   expect_error(aggregate_metad(tibble(), K = 1))
+})
+
+test_that("aggregate_metad fails for missing columns", {
+  d <- sim_metad() |> 
+    ungroup()
+  d |>
+    select(-stimulus) |>
+    aggregate_metad() |>
+    expect_error()
+  d |>
+    select(-response) |>
+    aggregate_metad() |>
+    expect_error()
+  d |>
+    select(-confidence) |>
+    aggregate_metad() |>
+    expect_error()
+  
+})
+
+test_that("aggregate_metad fails for invalid columns", {
+  d <- sim_metad() |> 
+    ungroup()
+  
+  d |>
+    mutate(stimulus=stimulus-1) |>
+    aggregate_metad() |>
+    expect_error()
+  d |>
+    mutate(response=response-1) |>
+    aggregate_metad() |>
+    expect_error()
+  d |>
+    mutate(confidence=confidence-1) |>
+    aggregate_metad() |>
+    expect_error()
+  d |>
+    mutate(joint_response=joint_response(response, confidence, K=4)-1) |>
+    select(-response, -confidence) |>
+    aggregate_metad() |>
+    expect_error()
 })
 
 test_that("fit_metad works", {

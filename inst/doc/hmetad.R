@@ -56,6 +56,9 @@ aggregate_metad(d, .name = "y")
 ## ----aggregate_condition, eval=FALSE------------------------------------------
 # aggregate_metad(d, participant, condition)
 
+## ----aggregate_condition_K, eval=FALSE----------------------------------------
+# aggregate_metad(d, participant, condition, K = 4)
+
 ## ----model_fitting, results=FALSE, message=FALSE, warning=FALSE---------------
 m <- fit_metad(N ~ 1,
   data = d,
@@ -72,6 +75,7 @@ m <- fit_metad(N ~ 1,
 summary(m)
 
 ## ----eval=FALSE---------------------------------------------------------------
+# # calculate number of confidence levels
 # K <- n_distinct(d$confidence)
 # 
 # m <- brm(bf(...),

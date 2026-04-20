@@ -1,11 +1,11 @@
 Package: hmetad
 Title: Fit the Meta-D' Model of Confidence Ratings Using 'brms'
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person("Kevin", "O'Neill", email="kevin.o'neill@ucl.ac.uk", role = c("aut", "cre", "cph"),
-           comment = c(ORCID = "https://orcid.org/0000-0001-7401-9802")),
-    person("Stephen", "Fleming", role = c("aut", "cph"),
-           comment = c(ORCID = "https://orcid.org/0000-0003-0233-4891"))
+           comment = c(ORCID = "0000-0001-7401-9802")),
+    person("Stephen", "Fleming", email="stephen.fleming@ucl.ac.uk", role = c("aut", "cph"),
+           comment = c(ORCID = "0000-0003-0233-4891"))
   )
 Description: Implementation of Bayesian regressions over the meta-d' model of 
     psychological data from two alternative forced choice tasks with 
@@ -30,11 +30,11 @@ URL: https://metacoglab.github.io/hmetad/,
 BugReports: https://github.com/metacoglab/hmetad/issues
 LazyData: true
 NeedsCompilation: no
-Packaged: 2026-03-09 18:52:02 UTC; kevin
+Packaged: 2026-04-20 19:14:09 UTC; kevin
 Author: Kevin O'Neill [aut, cre, cph] (ORCID:
     <https://orcid.org/0000-0001-7401-9802>),
   Stephen Fleming [aut, cph] (ORCID:
     <https://orcid.org/0000-0003-0233-4891>)
 Maintainer: Kevin O'Neill <kevin.o'neill@ucl.ac.uk>
 Repository: CRAN
-Date/Publication: 2026-03-16 16:00:26 UTC
+Date/Publication: 2026-04-20 20:40:13 UTC
