@@ -424,20 +424,20 @@ participant-level and item-level effects on their model parameters.</p>
 <span id="cb1-68"><a href="#cb1-68" tabindex="-1"></a>  <span class="fu">select</span>(participant, item, trial) <span class="sc">|&gt;</span></span>
 <span id="cb1-69"><a href="#cb1-69" tabindex="-1"></a>  <span class="fu">unnest</span>(trial)</span></code></pre></div>
 <pre><code>#&gt; # A tibble: 2,500 × 16
-#&gt;    participant  item trial stimulus response correct confidence dprime       c meta_dprime     M
-#&gt;          &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;    &lt;int&gt;   &lt;int&gt;      &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1           1     1     1        0        0       1          3  1.16   0.585        0.895 0.774
-#&gt;  2           1     1     1        1        0       0          1  1.16   0.585        0.895 0.774
-#&gt;  3           1     2     1        0        1       0          3  0.633 -0.0996       0.466 0.736
-#&gt;  4           1     2     1        1        1       1          1  0.633 -0.0996       0.466 0.736
-#&gt;  5           1     3     1        0        0       1          3  0.548  0.788        0.431 0.787
-#&gt;  6           1     3     1        1        0       0          3  0.548  0.788        0.431 0.787
-#&gt;  7           1     4     1        0        1       0          1  0.686  0.497        0.485 0.707
-#&gt;  8           1     4     1        1        1       1          2  0.686  0.497        0.485 0.707
-#&gt;  9           1     5     1        0        0       1          2  0.487 -0.182        0.383 0.788
-#&gt; 10           1     5     1        1        1       1          3  0.487 -0.182        0.383 0.788
+#&gt;    participant  item trial stimulus response correct confidence dprime       c meta_dprime     M meta_c2_0
+#&gt;          &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;    &lt;int&gt;   &lt;int&gt;      &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;   
+#&gt;  1           1     1     1        0        1       0          3  0.725 -0.843        0.614 0.847 &lt;dbl [2]&gt;
+#&gt;  2           1     1     1        1        1       1          3  0.725 -0.843        0.614 0.847 &lt;dbl [2]&gt;
+#&gt;  3           1     2     1        0        0       1          2  1.74  -1.24         1.12  0.642 &lt;dbl [2]&gt;
+#&gt;  4           1     2     1        1        1       1          3  1.74  -1.24         1.12  0.642 &lt;dbl [2]&gt;
+#&gt;  5           1     3     1        0        0       1          3  0.746  0.614        0.565 0.758 &lt;dbl [2]&gt;
+#&gt;  6           1     3     1        1        0       0          2  0.746  0.614        0.565 0.758 &lt;dbl [2]&gt;
+#&gt;  7           1     4     1        0        0       1          2  1.50  -0.0110       1.21  0.809 &lt;dbl [2]&gt;
+#&gt;  8           1     4     1        1        1       1          3  1.50  -0.0110       1.21  0.809 &lt;dbl [2]&gt;
+#&gt;  9           1     5     1        0        0       1          1  1.21  -0.231        1.13  0.931 &lt;dbl [2]&gt;
+#&gt; 10           1     5     1        1        1       1          1  1.21  -0.231        1.13  0.931 &lt;dbl [2]&gt;
 #&gt; # ℹ 2,490 more rows
-#&gt; # ℹ 5 more variables: meta_c2_0 &lt;list&gt;, meta_c2_1 &lt;list&gt;, theta &lt;dbl&gt;, theta_1 &lt;dbl&gt;, theta_2 &lt;dbl&gt;</code></pre>
+#&gt; # ℹ 4 more variables: meta_c2_1 &lt;list&gt;, theta &lt;dbl&gt;, theta_1 &lt;dbl&gt;, theta_2 &lt;dbl&gt;</code></pre>
 <p>Don’t worry about the details of the simulation code- what matters is
 that we have a data set with repeated measures for participants:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">count</span>(d, participant)</span>
@@ -481,20 +481,20 @@ really help us here:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">aggregate_metad</span>(d, participant, item)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; `hmetad` has inferred that there are K=3 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=&lt;K&gt;`</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1,250 × 5</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;    participant  item   N_0   N_1 N[,&quot;N_0_1&quot;] [,&quot;N_0_2&quot;] [,&quot;N_0_3&quot;] [,&quot;N_0_4&quot;] [,&quot;N_0_5&quot;] [,&quot;N_0_6&quot;]</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;          &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;int&gt;      &lt;int&gt;      &lt;int&gt;      &lt;int&gt;      &lt;int&gt;      &lt;int&gt;</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;  1           1     1     1     1           1          0          0          0          0          0</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;  2           1     2     1     1           0          0          0          0          0          1</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;  3           1     3     1     1           1          0          0          0          0          0</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;  4           1     4     1     1           0          0          0          1          0          0</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;  5           1     5     1     1           0          1          0          0          0          0</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;  6           1     6     1     1           0          0          1          0          0          0</span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;  7           1     7     1     1           1          0          0          0          0          0</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;  8           1     8     1     1           0          0          1          0          0          0</span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;  9           1     9     1     1           0          0          1          0          0          0</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 10           1    10     1     1           1          0          0          0          0          0</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;    participant  item   N_0   N_1 N[,&quot;N_0_1&quot;] [,&quot;N_0_2&quot;] [,&quot;N_0_3&quot;] [,&quot;N_0_4&quot;] [,&quot;N_0_5&quot;] [,&quot;N_0_6&quot;] [,&quot;N_1_1&quot;]</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;          &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;int&gt;      &lt;int&gt;      &lt;int&gt;      &lt;int&gt;      &lt;int&gt;      &lt;int&gt;      &lt;int&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;  1           1     1     1     1           0          0          0          0          0          1          0</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt;  2           1     2     1     1           0          1          0          0          0          0          0</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt;  3           1     3     1     1           1          0          0          0          0          0          0</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;  4           1     4     1     1           0          1          0          0          0          0          0</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;  5           1     5     1     1           0          0          1          0          0          0          0</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;  6           1     6     1     1           1          0          0          0          0          0          0</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;  7           1     7     1     1           0          0          0          0          1          0          0</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;  8           1     8     1     1           1          0          0          0          0          0          0</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;  9           1     9     1     1           1          0          0          0          0          0          0</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 10           1    10     1     1           1          0          0          0          0          0          0</span></span>
 <span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 1,240 more rows</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; # ℹ 1 more variable: N[7:12] &lt;int&gt;</span></span></code></pre></div>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; # ℹ 1 more variable: N[8:12] &lt;int&gt;</span></span></code></pre></div>
 <p>As you can see, the aggregated data set has 1250 rows (with two
 observations per row), which is not much smaller than the trial-level
 data that we started with! So, in this case, it will probably be easier
@@ -508,36 +508,26 @@ stopping us from fitting the model like normal:<a href="#fn1" class="footnote-re
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="at">class =</span> <span class="st">&quot;Intercept&quot;</span>,</span>
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    <span class="at">dpar =</span> <span class="fu">c</span>(<span class="st">&quot;dprime&quot;</span>, <span class="st">&quot;c&quot;</span>)</span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="fu">set_prior</span>(<span class="st">&quot;normal(-0.5, .1)&quot;</span>,</span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>    <span class="at">class =</span> <span class="st">&quot;Intercept&quot;</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>    <span class="at">dpar =</span> <span class="fu">c</span>(</span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>      <span class="st">&quot;metac2zero1diff&quot;</span>, <span class="st">&quot;metac2zero2diff&quot;</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>      <span class="st">&quot;metac2one1diff&quot;</span>, <span class="st">&quot;metac2one2diff&quot;</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>    )</span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> sd) <span class="sc">+</span></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>  <span class="fu">set_prior</span>(<span class="st">&quot;normal(0, 1)&quot;</span>,</span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>    <span class="at">class =</span> <span class="st">&quot;sd&quot;</span>,</span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>    <span class="at">dpar =</span> <span class="fu">c</span>(</span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>      <span class="st">&quot;dprime&quot;</span>, <span class="st">&quot;c&quot;</span>,</span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>      <span class="st">&quot;metac2zero1diff&quot;</span>, <span class="st">&quot;metac2zero2diff&quot;</span>,</span>
-<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a>      <span class="st">&quot;metac2one1diff&quot;</span>, <span class="st">&quot;metac2one2diff&quot;</span></span>
-<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a>    )</span>
-<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>  )</span>
-<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a></span>
-<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a>m.multinomial <span class="ot">&lt;-</span> <span class="fu">fit_metad</span>(</span>
-<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a>  <span class="fu">bf</span>(</span>
-<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a>    N <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> participant) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> item),</span>
-<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a>    dprime <span class="sc">+</span> c <span class="sc">+</span></span>
-<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a>      metac2zero1diff <span class="sc">+</span> metac2zero2diff <span class="sc">+</span></span>
-<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a>      metac2one1diff <span class="sc">+</span> metac2one2diff <span class="sc">~</span></span>
-<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a>      <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> participant) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> item)</span>
-<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a>  ),</span>
-<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a>  <span class="at">data =</span> d, <span class="at">init =</span> <span class="dv">0</span>, <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">prior =</span> priors</span>
-<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a>)</span>
-<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a><span class="co">#&gt; `hmetad` has inferred that there are K=3 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=&lt;K&gt;`</span></span>
-<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a><span class="co">#&gt; Compiling Stan program...</span></span>
-<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a><span class="co">#&gt; Start sampling</span></span></code></pre></div>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="fu">set_prior</span>(<span class="st">&quot;normal(-0.5, .1)&quot;</span>, <span class="at">class =</span> <span class="st">&quot;Intercept&quot;</span>, <span class="at">dpar =</span> <span class="fu">metac2_parameters</span>(<span class="at">K =</span> <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> sd) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>  <span class="fu">set_prior</span>(<span class="st">&quot;normal(0, 1)&quot;</span>, <span class="at">class =</span> <span class="st">&quot;sd&quot;</span>, <span class="at">dpar =</span> <span class="fu">c</span>(<span class="st">&quot;dprime&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="fu">metac2_parameters</span>(<span class="at">K =</span> <span class="dv">3</span>)))</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>m.multinomial <span class="ot">&lt;-</span> <span class="fu">fit_metad</span>(</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  <span class="fu">bf</span>(</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>    N <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> participant) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> item),</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>    dprime <span class="sc">+</span> c <span class="sc">+</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>      metac2zero1diff <span class="sc">+</span> metac2zero2diff <span class="sc">+</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>      metac2one1diff <span class="sc">+</span> metac2one2diff <span class="sc">~</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>      <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> participant) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> item)</span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>  ),</span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>  <span class="at">data =</span> d, <span class="at">init =</span> <span class="dv">0</span>, <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">prior =</span> priors</span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a>)</span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt; `hmetad` has inferred that there are K=3 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=&lt;K&gt;`</span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt; Compiling Stan program...</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt; Start sampling</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co">#&gt; Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co">#&gt; Running the chains for more iterations may help. See</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co">#&gt; https://mc-stan.org/misc/warnings.html#bulk-ess</span></span></code></pre></div>
 <pre><code>#&gt;  Family: metad__3__normal__absolute__multinomial 
 #&gt;   Links: mu = log; dprime = identity; c = identity; metac2zero1diff = log; metac2zero2diff = log; metac2one1diff = log; metac2one2diff = log 
 #&gt; Formula: N ~ 1 + (1 | participant) + (1 | item) 
@@ -554,33 +544,33 @@ stopping us from fitting the model like normal:<a href="#fn1" class="footnote-re
 #&gt; Multilevel Hyperparameters:
 #&gt; ~item (Number of levels: 25) 
 #&gt;                               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#&gt; sd(Intercept)                     0.09      0.07     0.00     0.26 1.00     1686     1558
-#&gt; sd(dprime_Intercept)              0.74      0.19     0.45     1.18 1.01      631     1424
-#&gt; sd(c_Intercept)                   0.81      0.13     0.60     1.11 1.01      628     1218
-#&gt; sd(metac2zero1diff_Intercept)     0.16      0.10     0.01     0.37 1.00      930     1186
-#&gt; sd(metac2zero2diff_Intercept)     0.11      0.08     0.00     0.30 1.00     1008     1218
-#&gt; sd(metac2one1diff_Intercept)      0.31      0.11     0.12     0.55 1.00     1151     1478
-#&gt; sd(metac2one2diff_Intercept)      0.13      0.09     0.01     0.32 1.00     1006     1581
+#&gt; sd(Intercept)                     0.14      0.10     0.01     0.37 1.00     1074     1538
+#&gt; sd(dprime_Intercept)              0.57      0.14     0.35     0.88 1.00      757     1379
+#&gt; sd(c_Intercept)                   0.76      0.12     0.57     1.03 1.00      614     1061
+#&gt; sd(metac2zero1diff_Intercept)     0.07      0.05     0.00     0.20 1.00     1876     1525
+#&gt; sd(metac2zero2diff_Intercept)     0.13      0.09     0.01     0.32 1.00      927     1399
+#&gt; sd(metac2one1diff_Intercept)      0.11      0.08     0.00     0.31 1.00     1085     1964
+#&gt; sd(metac2one2diff_Intercept)      0.18      0.10     0.01     0.41 1.00      921     1546
 #&gt; 
 #&gt; ~participant (Number of levels: 50) 
 #&gt;                               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#&gt; sd(Intercept)                     0.14      0.09     0.01     0.34 1.00      991     1483
-#&gt; sd(dprime_Intercept)              0.50      0.09     0.34     0.69 1.00     1203     2152
-#&gt; sd(c_Intercept)                   0.34      0.05     0.26     0.44 1.00     1397     2103
-#&gt; sd(metac2zero1diff_Intercept)     0.17      0.09     0.01     0.36 1.00      836     1386
-#&gt; sd(metac2zero2diff_Intercept)     0.18      0.10     0.01     0.38 1.01      658     1015
-#&gt; sd(metac2one1diff_Intercept)      0.29      0.09     0.10     0.48 1.00     1031     1191
-#&gt; sd(metac2one2diff_Intercept)      0.16      0.10     0.01     0.36 1.01      722      951
+#&gt; sd(Intercept)                     0.12      0.09     0.01     0.32 1.00     1247     1931
+#&gt; sd(dprime_Intercept)              0.44      0.08     0.29     0.62 1.00     1200     2111
+#&gt; sd(c_Intercept)                   0.35      0.05     0.27     0.45 1.00     1329     2091
+#&gt; sd(metac2zero1diff_Intercept)     0.19      0.10     0.02     0.38 1.01      717      955
+#&gt; sd(metac2zero2diff_Intercept)     0.30      0.10     0.11     0.49 1.01     1012     1093
+#&gt; sd(metac2one1diff_Intercept)      0.20      0.10     0.02     0.41 1.01      815     1241
+#&gt; sd(metac2one2diff_Intercept)      0.36      0.10     0.15     0.56 1.00      887      716
 #&gt; 
 #&gt; Regression Coefficients:
 #&gt;                           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#&gt; Intercept                    -0.30      0.08    -0.46    -0.14 1.00     3087     2868
-#&gt; dprime_Intercept              1.10      0.19     0.69     1.43 1.01      728     1186
-#&gt; c_Intercept                   0.05      0.14    -0.22     0.34 1.02      505      915
-#&gt; metac2zero1diff_Intercept    -0.81      0.06    -0.93    -0.68 1.00     2382     2520
-#&gt; metac2zero2diff_Intercept    -0.79      0.06    -0.90    -0.67 1.00     2739     2570
-#&gt; metac2one1diff_Intercept     -0.77      0.07    -0.92    -0.62 1.00     2093     2708
-#&gt; metac2one2diff_Intercept     -0.79      0.06    -0.91    -0.67 1.00     2987     2527
+#&gt; Intercept                    -0.23      0.09    -0.41    -0.07 1.00     3386     2946
+#&gt; dprime_Intercept              1.10      0.15     0.77     1.36 1.00      930     1255
+#&gt; c_Intercept                   0.15      0.14    -0.12     0.42 1.02      275      496
+#&gt; metac2zero1diff_Intercept    -0.83      0.06    -0.93    -0.72 1.00     3284     2931
+#&gt; metac2zero2diff_Intercept    -0.79      0.06    -0.91    -0.67 1.00     2643     2965
+#&gt; metac2one1diff_Intercept     -0.84      0.06    -0.95    -0.71 1.00     3121     2733
+#&gt; metac2one2diff_Intercept     -0.79      0.07    -0.92    -0.65 1.00     2296     2603
 #&gt; 
 #&gt; Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 #&gt; and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -604,21 +594,20 @@ now:</p>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">joint_response =</span> <span class="fu">joint_response</span>(response, confidence, K)) <span class="sc">|&gt;</span></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">relocate</span>(joint_response, <span class="at">.after =</span> <span class="st">&quot;stimulus&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; # A tibble: 2,500 × 17
-#&gt;    participant  item trial stimulus joint_response response correct confidence dprime       c
-#&gt;          &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;    &lt;int&gt;   &lt;int&gt;      &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;
-#&gt;  1           1     1     1        0              1        0       1          3  1.16   0.585 
-#&gt;  2           1     1     1        1              3        0       0          1  1.16   0.585 
-#&gt;  3           1     2     1        0              6        1       0          3  0.633 -0.0996
-#&gt;  4           1     2     1        1              4        1       1          1  0.633 -0.0996
-#&gt;  5           1     3     1        0              1        0       1          3  0.548  0.788 
-#&gt;  6           1     3     1        1              1        0       0          3  0.548  0.788 
-#&gt;  7           1     4     1        0              4        1       0          1  0.686  0.497 
-#&gt;  8           1     4     1        1              5        1       1          2  0.686  0.497 
-#&gt;  9           1     5     1        0              2        0       1          2  0.487 -0.182 
-#&gt; 10           1     5     1        1              6        1       1          3  0.487 -0.182 
+#&gt;    participant  item trial stimulus joint_response response correct confidence dprime       c meta_dprime     M
+#&gt;          &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;    &lt;int&gt;   &lt;int&gt;      &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1           1     1     1        0              6        1       0          3  0.725 -0.843        0.614 0.847
+#&gt;  2           1     1     1        1              6        1       1          3  0.725 -0.843        0.614 0.847
+#&gt;  3           1     2     1        0              2        0       1          2  1.74  -1.24         1.12  0.642
+#&gt;  4           1     2     1        1              6        1       1          3  1.74  -1.24         1.12  0.642
+#&gt;  5           1     3     1        0              1        0       1          3  0.746  0.614        0.565 0.758
+#&gt;  6           1     3     1        1              2        0       0          2  0.746  0.614        0.565 0.758
+#&gt;  7           1     4     1        0              2        0       1          2  1.50  -0.0110       1.21  0.809
+#&gt;  8           1     4     1        1              6        1       1          3  1.50  -0.0110       1.21  0.809
+#&gt;  9           1     5     1        0              3        0       1          1  1.21  -0.231        1.13  0.931
+#&gt; 10           1     5     1        1              4        1       1          1  1.21  -0.231        1.13  0.931
 #&gt; # ℹ 2,490 more rows
-#&gt; # ℹ 7 more variables: meta_dprime &lt;dbl&gt;, M &lt;dbl&gt;, meta_c2_0 &lt;list&gt;, meta_c2_1 &lt;list&gt;, theta &lt;dbl&gt;,
-#&gt; #   theta_1 &lt;dbl&gt;, theta_2 &lt;dbl&gt;</code></pre>
+#&gt; # ℹ 5 more variables: meta_c2_0 &lt;list&gt;, meta_c2_1 &lt;list&gt;, theta &lt;dbl&gt;, theta_1 &lt;dbl&gt;, theta_2 &lt;dbl&gt;</code></pre>
 </div>
 <div id="model-fitting" class="section level2">
 <h2>Model fitting</h2>
@@ -639,10 +628,7 @@ and the argument <code>categorical=TRUE</code> to tell
 <span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>)</span>
 <span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; `hmetad` has inferred that there are K=3 confidence levels in the data. If this is incorrect, please set this manually using the argument `K=&lt;K&gt;`</span></span>
 <span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; Compiling Stan program...</span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; Start sampling</span></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.</span></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; Running the chains for more iterations may help. See</span></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; https://mc-stan.org/misc/warnings.html#bulk-ess</span></span></code></pre></div>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; Start sampling</span></span></code></pre></div>
 <pre><code>#&gt;  Family: metad__3__normal__absolute__categorical 
 #&gt;   Links: mu = log; dprime = identity; c = identity; metac2zero1diff = log; metac2zero2diff = log; metac2one1diff = log; metac2one2diff = log 
 #&gt; Formula: joint_response | vint(stimulus) ~ 1 + (1 | participant) + (1 | item) 
@@ -659,33 +645,33 @@ and the argument <code>categorical=TRUE</code> to tell
 #&gt; Multilevel Hyperparameters:
 #&gt; ~item (Number of levels: 25) 
 #&gt;                               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#&gt; sd(Intercept)                     0.09      0.07     0.00     0.25 1.00     1386     1107
-#&gt; sd(dprime_Intercept)              0.75      0.18     0.46     1.18 1.00      742     1584
-#&gt; sd(c_Intercept)                   0.82      0.13     0.61     1.12 1.00      647     1330
-#&gt; sd(metac2zero1diff_Intercept)     0.15      0.10     0.01     0.36 1.01      792      657
-#&gt; sd(metac2zero2diff_Intercept)     0.12      0.08     0.01     0.30 1.00     1310     1638
-#&gt; sd(metac2one1diff_Intercept)      0.31      0.11     0.09     0.54 1.01      684      438
-#&gt; sd(metac2one2diff_Intercept)      0.13      0.09     0.01     0.33 1.00     1023     1497
+#&gt; sd(Intercept)                     0.14      0.10     0.01     0.37 1.00     1467     1998
+#&gt; sd(dprime_Intercept)              0.57      0.14     0.36     0.89 1.00      854     1603
+#&gt; sd(c_Intercept)                   0.76      0.12     0.57     1.02 1.00      792     1543
+#&gt; sd(metac2zero1diff_Intercept)     0.07      0.05     0.00     0.19 1.00     2130     2015
+#&gt; sd(metac2zero2diff_Intercept)     0.13      0.09     0.01     0.33 1.00     1264     1853
+#&gt; sd(metac2one1diff_Intercept)      0.12      0.09     0.00     0.31 1.00     1053     1268
+#&gt; sd(metac2one2diff_Intercept)      0.18      0.10     0.02     0.41 1.00      927     1443
 #&gt; 
 #&gt; ~participant (Number of levels: 50) 
 #&gt;                               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#&gt; sd(Intercept)                     0.14      0.09     0.01     0.34 1.01     1081     1547
-#&gt; sd(dprime_Intercept)              0.50      0.09     0.34     0.68 1.00     1268     2400
-#&gt; sd(c_Intercept)                   0.34      0.05     0.26     0.44 1.00     1419     2662
-#&gt; sd(metac2zero1diff_Intercept)     0.17      0.10     0.01     0.37 1.00      767     1164
-#&gt; sd(metac2zero2diff_Intercept)     0.18      0.10     0.01     0.39 1.00      698      986
-#&gt; sd(metac2one1diff_Intercept)      0.30      0.09     0.12     0.48 1.00     1312     1522
-#&gt; sd(metac2one2diff_Intercept)      0.16      0.09     0.01     0.36 1.00      751      856
+#&gt; sd(Intercept)                     0.12      0.09     0.00     0.31 1.00     1295     1610
+#&gt; sd(dprime_Intercept)              0.44      0.08     0.29     0.62 1.00     1513     2242
+#&gt; sd(c_Intercept)                   0.35      0.05     0.27     0.45 1.00     1330     2340
+#&gt; sd(metac2zero1diff_Intercept)     0.18      0.10     0.01     0.38 1.00      739     1234
+#&gt; sd(metac2zero2diff_Intercept)     0.30      0.10     0.07     0.51 1.01      698      502
+#&gt; sd(metac2one1diff_Intercept)      0.21      0.10     0.02     0.41 1.00      702      973
+#&gt; sd(metac2one2diff_Intercept)      0.36      0.10     0.17     0.56 1.01      954      837
 #&gt; 
 #&gt; Regression Coefficients:
 #&gt;                           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-#&gt; Intercept                    -0.30      0.08    -0.47    -0.14 1.00     3183     2891
-#&gt; dprime_Intercept              1.11      0.19     0.68     1.44 1.00      718     1468
-#&gt; c_Intercept                   0.07      0.14    -0.22     0.33 1.01      388      856
-#&gt; metac2zero1diff_Intercept    -0.81      0.06    -0.94    -0.69 1.00     2547     2277
-#&gt; metac2zero2diff_Intercept    -0.79      0.06    -0.90    -0.67 1.00     2723     2413
-#&gt; metac2one1diff_Intercept     -0.77      0.07    -0.91    -0.62 1.00     1745     2359
-#&gt; metac2one2diff_Intercept     -0.78      0.06    -0.90    -0.67 1.00     3046     2716
+#&gt; Intercept                    -0.23      0.09    -0.42    -0.06 1.00     3799     2616
+#&gt; dprime_Intercept              1.09      0.15     0.78     1.35 1.00      851     1703
+#&gt; c_Intercept                   0.14      0.13    -0.12     0.40 1.01      501     1045
+#&gt; metac2zero1diff_Intercept    -0.83      0.05    -0.93    -0.72 1.00     4309     2970
+#&gt; metac2zero2diff_Intercept    -0.79      0.06    -0.91    -0.66 1.00     2891     2937
+#&gt; metac2one1diff_Intercept     -0.83      0.06    -0.95    -0.71 1.00     2537     2565
+#&gt; metac2one2diff_Intercept     -0.79      0.07    -0.92    -0.65 1.00     2479     2625
 #&gt; 
 #&gt; Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 #&gt; and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -710,22 +696,22 @@ and items, we can use an empty data set with
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt; # Groups:   .row, joint_response, response, confidence [5]</span></span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt;    .row joint_response response confidence           p_fa         p_hit</span></span>
 <span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt;   &lt;int&gt;          &lt;int&gt;    &lt;int&gt;      &lt;dbl&gt;     &lt;rvar[1d]&gt;    &lt;rvar[1d]&gt;</span></span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; 1     1              1        0          3  0.643 ± 0.060  0.91 ± 0.029</span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt; 2     1              2        0          2  0.457 ± 0.064  0.82 ± 0.045</span></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt; 3     1              3        0          1  0.276 ± 0.056  0.69 ± 0.060</span></span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; 4     1              4        1          1  0.154 ± 0.040  0.50 ± 0.066</span></span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt; 5     1              5        1          2  0.074 ± 0.024  0.31 ± 0.058</span></span></code></pre></div>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; 1     1              1        0          3  0.600 ± 0.058  0.89 ± 0.031</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt; 2     1              2        0          2  0.413 ± 0.058  0.79 ± 0.047</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt; 3     1              3        0          1  0.244 ± 0.048  0.65 ± 0.059</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; 4     1              4        1          1  0.136 ± 0.034  0.47 ± 0.062</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt; 5     1              5        1          2  0.063 ± 0.020  0.29 ± 0.054</span></span></code></pre></div>
 <p>The process is exactly the same for the categorical model:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">roc1_rvars</span>(m.categorical, <span class="fu">tibble</span>(<span class="at">.row =</span> <span class="dv">1</span>), <span class="at">re_formula =</span> <span class="cn">NA</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 6</span></span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt; # Groups:   .row, joint_response, response, confidence [5]</span></span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#&gt;    .row joint_response response confidence           p_fa         p_hit</span></span>
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt;   &lt;int&gt;          &lt;int&gt;    &lt;int&gt;      &lt;dbl&gt;     &lt;rvar[1d]&gt;    &lt;rvar[1d]&gt;</span></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt; 1     1              1        0          3  0.638 ± 0.060  0.91 ± 0.028</span></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt; 2     1              2        0          2  0.451 ± 0.064  0.81 ± 0.044</span></span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt; 3     1              3        0          1  0.271 ± 0.056  0.69 ± 0.058</span></span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; 4     1              4        1          1  0.150 ± 0.040  0.49 ± 0.063</span></span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; 5     1              5        1          2  0.071 ± 0.023  0.31 ± 0.055</span></span></code></pre></div>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt; 1     1              1        0          3  0.605 ± 0.057  0.89 ± 0.028</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt; 2     1              2        0          2  0.418 ± 0.057  0.79 ± 0.043</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt; 3     1              3        0          1  0.248 ± 0.047  0.66 ± 0.055</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; 4     1              4        1          1  0.138 ± 0.033  0.47 ± 0.058</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; 5     1              5        1          2  0.064 ± 0.019  0.30 ± 0.051</span></span></code></pre></div>
 <p>Next, to get participant-level ROCs (averaging over items), we can
 use a dataset with one row per participant and only the
 participant-level random effects:</p>
@@ -734,34 +720,34 @@ participant-level random effects:</p>
 <span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="co">#&gt; # Groups:   .row, participant, joint_response, response, confidence [250]</span></span>
 <span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">#&gt;     .row participant joint_response response confidence          p_fa         p_hit</span></span>
 <span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt;       &lt;int&gt;          &lt;int&gt;    &lt;int&gt;      &lt;dbl&gt;    &lt;rvar[1d]&gt;    &lt;rvar[1d]&gt;</span></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt;  1     1           1              1        0          3  0.68 ± 0.089  0.82 ± 0.068</span></span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt;  2     2           2              1        0          3  0.59 ± 0.099  0.94 ± 0.032</span></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt;  3     3           3              1        0          3  0.71 ± 0.086  0.90 ± 0.047</span></span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt;  4     4           4              1        0          3  0.62 ± 0.093  0.81 ± 0.069</span></span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co">#&gt;  5     5           5              1        0          3  0.83 ± 0.065  0.97 ± 0.021</span></span>
-<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co">#&gt;  6     6           6              1        0          3  0.39 ± 0.095  0.76 ± 0.080</span></span>
-<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co">#&gt;  7     7           7              1        0          3  0.77 ± 0.078  0.89 ± 0.049</span></span>
-<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co">#&gt;  8     8           8              1        0          3  0.55 ± 0.099  0.91 ± 0.043</span></span>
-<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="co">#&gt;  9     9           9              1        0          3  0.58 ± 0.098  0.93 ± 0.038</span></span>
-<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="co">#&gt; 10    10          10              1        0          3  0.69 ± 0.089  0.95 ± 0.030</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt;  1     1           1              1        0          3  0.54 ± 0.103  0.93 ± 0.038</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt;  2     2           2              1        0          3  0.75 ± 0.077  0.91 ± 0.042</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt;  3     3           3              1        0          3  0.84 ± 0.066  0.96 ± 0.024</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt;  4     4           4              1        0          3  0.45 ± 0.099  0.78 ± 0.073</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co">#&gt;  5     5           5              1        0          3  0.63 ± 0.093  0.93 ± 0.035</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co">#&gt;  6     6           6              1        0          3  0.44 ± 0.099  0.91 ± 0.043</span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co">#&gt;  7     7           7              1        0          3  0.60 ± 0.092  0.88 ± 0.051</span></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co">#&gt;  8     8           8              1        0          3  0.40 ± 0.095  0.67 ± 0.088</span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="co">#&gt;  9     9           9              1        0          3  0.72 ± 0.083  0.88 ± 0.052</span></span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="co">#&gt; 10    10          10              1        0          3  0.50 ± 0.099  0.68 ± 0.087</span></span>
 <span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 240 more rows</span></span></code></pre></div>
 <p>We can use a similar process to get item-level ROCs (averaging over
 participants):</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">roc1_rvars</span>(m.categorical, <span class="fu">distinct</span>(d, item), <span class="at">re_formula =</span> <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> item))</span>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 125 × 7</span></span>
 <span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="co">#&gt; # Groups:   .row, item, joint_response, response, confidence [125]</span></span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co">#&gt;     .row  item joint_response response confidence          p_fa         p_hit</span></span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt; &lt;int&gt;          &lt;int&gt;    &lt;int&gt;      &lt;dbl&gt;    &lt;rvar[1d]&gt;    &lt;rvar[1d]&gt;</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt;  1     1     1              1        0          3  0.42 ± 0.065  0.96 ± 0.016</span></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt;  2     2     2              1        0          3  0.72 ± 0.055  0.96 ± 0.017</span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt;  3     3     3              1        0          3  0.47 ± 0.065  0.87 ± 0.037</span></span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co">#&gt;  4     4     4              1        0          3  0.45 ± 0.068  0.91 ± 0.029</span></span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co">#&gt;  5     5     5              1        0          3  0.82 ± 0.043  0.97 ± 0.013</span></span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt;  6     6     6              1        0          3  0.81 ± 0.045  0.98 ± 0.010</span></span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="co">#&gt;  7     7     7              1        0          3  0.48 ± 0.067  0.83 ± 0.044</span></span>
-<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co">#&gt;  8     8     8              1        0          3  0.59 ± 0.063  0.97 ± 0.015</span></span>
-<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a><span class="co">#&gt;  9     9     9              1        0          3  0.42 ± 0.068  0.90 ± 0.031</span></span>
-<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a><span class="co">#&gt; 10    10    10              1        0          3  0.56 ± 0.065  0.94 ± 0.023</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co">#&gt;     .row  item joint_response response confidence          p_fa          p_hit</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt; &lt;int&gt;          &lt;int&gt;    &lt;int&gt;      &lt;dbl&gt;    &lt;rvar[1d]&gt;     &lt;rvar[1d]&gt;</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt;  1     1     1              1        0          3  0.92 ± 0.026  0.98 ± 0.0115</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt;  2     2     2              1        0          3  0.93 ± 0.023  1.00 ± 0.0023</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt;  3     3     3              1        0          3  0.59 ± 0.064  0.74 ± 0.0521</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co">#&gt;  4     4     4              1        0          3  0.50 ± 0.066  0.91 ± 0.0292</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co">#&gt;  5     5     5              1        0          3  0.71 ± 0.055  0.93 ± 0.0252</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt;  6     6     6              1        0          3  0.50 ± 0.067  0.92 ± 0.0249</span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="co">#&gt;  7     7     7              1        0          3  0.47 ± 0.067  0.84 ± 0.0413</span></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co">#&gt;  8     8     8              1        0          3  0.43 ± 0.064  0.89 ± 0.0324</span></span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a><span class="co">#&gt;  9     9     9              1        0          3  0.56 ± 0.065  0.88 ± 0.0334</span></span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a><span class="co">#&gt; 10    10    10              1        0          3  0.41 ± 0.065  0.87 ± 0.0349</span></span>
 <span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 115 more rows</span></span></code></pre></div>
 </div>
 <div id="other-benefits" class="section level2">

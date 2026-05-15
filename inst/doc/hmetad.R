@@ -53,22 +53,28 @@ d.summary
 ## ----aggregate_metad_response-------------------------------------------------
 aggregate_metad(d, .name = "y")
 
+## ----aggregate_metad_columns--------------------------------------------------
+d |>
+  rename(
+    s = stimulus,
+    r = response,
+    c = confidence
+  ) |>
+  aggregate_metad(.stimulus = "s", .response = "r", .confidence = "c")
+
 ## ----aggregate_condition, eval=FALSE------------------------------------------
 # aggregate_metad(d, participant, condition)
 
 ## ----aggregate_condition_K, eval=FALSE----------------------------------------
 # aggregate_metad(d, participant, condition, K = 4)
 
-## ----model_fitting, results=FALSE, message=FALSE, warning=FALSE---------------
+## ----model_fitting, results=FALSE, warning=FALSE, error=FALSE, message=FALSE----
 m <- fit_metad(N ~ 1,
-  data = d,
+  data = d, init = 0,
   prior = prior(normal(0, 1), class = Intercept) +
     prior(normal(0, 1), class = dprime) +
     prior(normal(0, 1), class = c) +
-    prior(lognormal(0, 1), class = metac2zero1diff) +
-    prior(lognormal(0, 1), class = metac2zero2diff) +
-    prior(lognormal(0, 1), class = metac2one1diff) +
-    prior(lognormal(0, 1), class = metac2one2diff)
+    set_prior("lognormal(0, 1)", class = metac2_parameters(K = 4))
 )
 
 ## ----echo=FALSE---------------------------------------------------------------
@@ -84,6 +90,13 @@ summary(m)
 #   stanvars = stanvars_metad(K = K, ...),
 #   ...
 # )
+
+## ----eval=FALSE---------------------------------------------------------------
+# d.aggregated <- aggregate_metad(d, ...)
+# 
+# # modify d.aggregated as needed
+# 
+# m <- fit_metad(bf(...), d.aggregated, aggregate = FALSE)
 
 ## ----parameters---------------------------------------------------------------
 draws.metad <- tibble(.row = 1) |>
@@ -136,7 +149,6 @@ draws.epred |>
   ggplot(aes(x = joint_response)) +
   geom_col(aes(y = .true), fill = "grey80") +
   geom_pointrange(aes(y = .epred, ymin = .lower, ymax = .upper)) +
-  scale_alpha_discrete(range = c(.25, 1)) +
   facet_wrap(~stimulus, labeller = label_both) +
   theme_classic(18)
 
